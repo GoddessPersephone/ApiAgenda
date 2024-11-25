@@ -1,7 +1,5 @@
 ﻿using AgendaContatoApi.Model;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Reflection.Emit;
 
 namespace AgendaContatoApi.Data
 {
