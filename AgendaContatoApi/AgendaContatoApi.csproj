@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\src\AgendaContatoApi.Data\AgendaContatoApi.Data.csproj" />
+    <ProjectReference Include="..\src\AgendaContatoApi.Interface\AgendaContatoApi.Interface.csproj" />
+    <ProjectReference Include="..\src\AgendaContatoApi.Model\AgendaContatoApi.Model.csproj" />
+    <ProjectReference Include="..\src\AgendaContatoApi.Services\AgendaContatoApi.Services.csproj" />
+  </ItemGroup>
+
+</Project>
