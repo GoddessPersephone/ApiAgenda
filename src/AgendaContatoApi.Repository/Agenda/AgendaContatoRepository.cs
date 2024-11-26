@@ -1,13 +1,13 @@
 ﻿using AgendaContatoApi.Data;
-using AgendaContatoApi.Interface;
+using AgendaContatoApi.Interface.Repositories;
 using AgendaContatoApi.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
 
-namespace AgendaContatoApi.Repository
+namespace AgendaContatoApi.Repository.Agenda
 {
-    public class AgendaContatoRepository : IAgendaContatoRepository
+    public class AgendaContatoRepository : IAgendaRepository
     {
         private readonly AgendaContext _context;
         private readonly ILogger<AgendaContatoRepository> _logger;
@@ -20,12 +20,12 @@ namespace AgendaContatoApi.Repository
             _context = context;
         }
 
-        public async Task<List<AgendaModel>> ObterContatosAsync()
+        public async Task<List<AgendaModel>> ObterRegistroAsync()
         {
             var listaErro = new List<AgendaModel>();
             try
             {
-                return await _context.TabelaContatos.AsNoTracking().Where(x => x.Ativo).ToListAsync();
+                return await _context.TabelaAgenda.AsNoTracking().Where(x => x.Ativo).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -43,14 +43,14 @@ namespace AgendaContatoApi.Repository
             }
         }
 
-        public async Task<AgendaModel> ObterContatoPorIdAsync(int id)
+        public async Task<AgendaModel> ObterRegistroPorIdAsync(int id)
         {
             var mensagem = string.Empty;
             var modelErro = new AgendaModel();
             try
             {
-                return await _context.TabelaContatos
-                                     .Where(x => x.Ativo && x.Id == id)
+                return await _context.TabelaAgenda
+                                     .Where(x => x.Ativo && x.IdRegistroAgenda == id)
                                      .FirstOrDefaultAsync();
             }
             catch (Exception ex)
@@ -69,13 +69,13 @@ namespace AgendaContatoApi.Repository
             }
         }
 
-        public async Task<List<AgendaModel>> InserirContatoAsync(List<AgendaModel> liContato)
+        public async Task<List<AgendaModel>> InserirRegistroAsync(List<AgendaModel> liContato)
         {
             var listaErro = new List<AgendaModel>();
             using var transacao = _context.Database.BeginTransaction();
             try
             {
-                await _context.TabelaContatos.AddRangeAsync(liContato);
+                await _context.TabelaAgenda.AddRangeAsync(liContato);
                 await _context.SaveChangesAsync();
 
                 await transacao.CommitAsync();
@@ -100,15 +100,13 @@ namespace AgendaContatoApi.Repository
             }
         }
 
-        public async Task<AgendaModel> AlterarContatoAsync(AgendaModel contato)
+        public async Task<AgendaModel> AlterarRegistroAsync(AgendaModel contato)
         {
             var modelErro = new AgendaModel();
             using var transacao = _context.Database.BeginTransaction();
             try
             {
-                //
-
-                _context.TabelaContatos.Update(contato);
+                _context.TabelaAgenda.Update(contato);
                 await _context.SaveChangesAsync();
 
                 await transacao.CommitAsync();
@@ -132,31 +130,30 @@ namespace AgendaContatoApi.Repository
             }
         }
 
-        public async Task<AgendaModel> DeletarContatoAsync(int id)
+        public async Task<AgendaModel> DeletarRegistroAsync(int id)
         {
             var modelErro = new AgendaModel();
             using var transacao = _context.Database.BeginTransaction();
             try
             {
-                var contato = await _context.TabelaContatos.FindAsync(id);
+                var registro = await _context.TabelaAgenda.FindAsync(id);
 
-                if (contato is null)
+                if (registro is null)
                 {
                     sucesso = false;
                     mensagem = "Contato não localizado no cadastro!";
                 }
                 else
                 {
-                    contato.InativaRegistro();
-                    _context.TabelaContatos.Update(contato);
+                    registro.InativaRegistro();
+                    _context.TabelaAgenda.Update(registro);
                     await _context.SaveChangesAsync();
 
                     await transacao.CommitAsync();
                     _logger.LogInformation("Sucesso!");
                 }
                 modelErro.ErroMensagem = mensagem;
-                return sucesso ? contato : modelErro;
-
+                return sucesso ? registro : modelErro;
             }
             catch (Exception ex)
             {

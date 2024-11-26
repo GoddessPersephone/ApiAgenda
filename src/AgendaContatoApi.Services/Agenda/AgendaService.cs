@@ -1,18 +1,19 @@
 ﻿using AgendaContatoApi.DTO.Agenda;
-using AgendaContatoApi.Interface;
+using AgendaContatoApi.Interface.Repositories;
+using AgendaContatoApi.Interface.Services;
 using AgendaContatoApi.Model;
 using Microsoft.Extensions.Logging;
 
-namespace AgendaContatoApi.Services
+namespace AgendaContatoApi.Services.Agenda
 {
-    public class AgendaContatoService : IAgendaContatoService
+    public class AgendaService : IAgendaService
     {
-        private readonly IAgendaContatoRepository _repo;
-        private readonly ILogger<AgendaContatoService> _logger;
+        private readonly IAgendaRepository _repo;
+        private readonly ILogger<AgendaService> _logger;
         public string mensagem = string.Empty;
         public bool sucesso = true;
 
-        public AgendaContatoService(IAgendaContatoRepository repo, ILogger<AgendaContatoService> logger)
+        public AgendaService(IAgendaRepository repo, ILogger<AgendaService> logger)
         {
             _repo = repo;
             _logger = logger;
@@ -24,7 +25,7 @@ namespace AgendaContatoApi.Services
             var listaRetorno = new List<AgendaModel>();
             try
             {
-                listaRetorno = await _repo.ObterContatosAsync();
+                listaRetorno = await _repo.ObterRegistroAsync();
                 if (listaRetorno is not null && listaRetorno.Count > 0)
                 {
                     if (!string.IsNullOrEmpty(listaRetorno[0].ErroMensagem))
@@ -58,7 +59,7 @@ namespace AgendaContatoApi.Services
                 }
                 if (sucesso)
                 {
-                    modelRetorno = await _repo.ObterContatoPorIdAsync(id);
+                    modelRetorno = await _repo.ObterRegistroPorIdAsync(id);
                     if (modelRetorno is not null)
                     {
                         if (!string.IsNullOrEmpty(modelRetorno.ErroMensagem))
@@ -80,7 +81,7 @@ namespace AgendaContatoApi.Services
                 return modelErro;
             }
         }
-        public async Task<List<AgendaModel>> Inserir(List<InserirAgendaContatoDTO> liContatoDTO)
+        public async Task<List<AgendaModel>> Inserir(List<InserirAgendaDTO> liContatoDTO)
         {
             var listaErro = new List<AgendaModel>();
             var listaRetorno = new List<AgendaModel>();
@@ -96,9 +97,9 @@ namespace AgendaContatoApi.Services
                 #endregion
                 if (sucesso)
                 {
-                    var listaContatos = liContatoDTO.Select(item => new AgendaModel(nome: item.Nome, endereco: item.Endereco, contatos: item.Contato)).ToList();
+                    var listaAgenda = liContatoDTO.Select(item => new AgendaModel(nome: item.Nome)).ToList();
 
-                    listaRetorno = await _repo.InserirContatoAsync(listaContatos);
+                    listaRetorno = await _repo.InserirRegistroAsync(listaAgenda);
                     if (listaRetorno is not null && listaRetorno.Count > 0)
                     {
                         if (!string.IsNullOrEmpty(listaRetorno[0].ErroMensagem))
@@ -120,7 +121,7 @@ namespace AgendaContatoApi.Services
                 return listaErro;
             }
         }
-        public async Task<AgendaModel> Alterar(AlterarAgendaContatoDTO contato)
+        public async Task<AgendaModel> Alterar(AlterarAgendaDTO contato)
         {
             var modelErro = new AgendaModel();
             var modelRetorno = new AgendaModel();
@@ -136,9 +137,9 @@ namespace AgendaContatoApi.Services
                 #endregion
                 if (sucesso)
                 {
-                    var model = new AgendaModel(id: contato.Id, nome: contato.Nome, enderecoID: contato.Endereco, contatoID: contato.Contato);
+                    var model = new AgendaModel(id: contato.Id, nome: contato.Nome);
 
-                    modelRetorno = await _repo.AlterarContatoAsync(model);
+                    modelRetorno = await _repo.AlterarRegistroAsync(model);
                     if (modelRetorno is not null && !string.IsNullOrEmpty(modelRetorno.ErroMensagem))
                     {
                         sucesso = false;
@@ -146,7 +147,7 @@ namespace AgendaContatoApi.Services
                         _logger.LogError(mensagem);
                     }
                 }
-            
+
                 modelErro.ErroMensagem = mensagem;
                 return sucesso ? modelRetorno : modelErro;
             }
@@ -174,7 +175,7 @@ namespace AgendaContatoApi.Services
                 }
                 if (sucesso)
                 {
-                    modelRetorno = await _repo.DeletarContatoAsync(id);
+                    modelRetorno = await _repo.DeletarRegistroAsync(id);
                     if (modelRetorno is not null && !string.IsNullOrEmpty(modelRetorno.ErroMensagem))
                     {
                         sucesso = false;

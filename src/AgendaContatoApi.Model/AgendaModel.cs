@@ -7,33 +7,38 @@ namespace AgendaContatoApi.Model
     public class AgendaModel : BaseModel
     {
         [Key]
-        public int Id { get; private set; }
+        public int IdRegistroAgenda { get; private set; }
         public string Nome { get; private set; }
         public int[] idContato { get; private set; }
         public int[] idEndereco { get; private set; }
 
         public AgendaModel()
         {
-            Id = 0;
+            IdRegistroAgenda = 0;
+            Nome = string.Empty;
             idContato = Array.Empty<int>();
             idEndereco = Array.Empty<int>();
-            Nome = string.Empty;
         }
         public AgendaModel(int id
                           , string nome
                           , int[] contatoID
                           , int[] enderecoID)
         {
-            Id = id;
+            IdRegistroAgenda = id;
+            Nome = nome.CaixaAlta().RemoveCaracteres();
             idContato = contatoID;
             idEndereco = enderecoID;
-            Nome = nome.CaixaAlta().RemoveCaracteres();
         }
         public AgendaModel(string nome)
         {
             Nome = nome.CaixaAlta().RemoveCaracteres();
             AtivaRegistro();
             DataAtual();
+        }
+        public AgendaModel(int id, string nome)
+        {
+            IdRegistroAgenda = id;
+            Nome = nome.CaixaAlta().RemoveCaracteres();
         }
 
         public void Alterar(string nome, int[] contato, int[] endereco)

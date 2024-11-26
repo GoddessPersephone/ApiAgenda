@@ -1,4 +1,4 @@
-﻿using AgendaContatoApi.DTO.Contato;
+﻿using AgendaContatoApi.DTO.Agenda;
 using AgendaContatoApi.Interface.Services;
 using AgendaContatoApi.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -7,20 +7,20 @@ namespace AgendaContatoApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ContatoController : ControllerBase
+    public class AgendaController : ControllerBase
     {
-        private readonly IContatoService _service;
+        private readonly IAgendaService _service;
         private readonly ILogger<AgendaController> _logger;
         public string mensagem = string.Empty;
 
-        public ContatoController(IContatoService service, ILogger<AgendaController> logger)
+        public AgendaController(IAgendaService service, ILogger<AgendaController> logger)
         {
             _service = service;
             _logger = logger;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ContatoModel>>> ObterContatos()
+        public async Task<ActionResult<IEnumerable<AgendaModel>>> ObterContatos()
         {
             try
             {
@@ -30,18 +30,18 @@ namespace AgendaContatoApi.Controllers
                     _logger.LogError(mensagem);
                     return BadRequest(mensagem);
                 }
-                var liContatos = await _service.Obter();
-                if (liContatos is not null && liContatos.Count > 0)
+                var liRegistro = await _service.Obter();
+                if (liRegistro is not null && liRegistro.Count > 0)
                 {
-                    if (!string.IsNullOrEmpty(liContatos[0].ErroMensagem))
+                    if (!string.IsNullOrEmpty(liRegistro[0].ErroMensagem))
                     {
-                        mensagem += liContatos[0].ErroMensagem;
+                        mensagem += liRegistro[0].ErroMensagem;
                         _logger.LogError(mensagem);
                         return BadRequest(mensagem);
                     }
                     mensagem += "Sucesso!";
                     _logger.LogInformation(mensagem);
-                    return Ok(liContatos);
+                    return Ok(liRegistro);
                 }
                 mensagem += "Dados não localizados!";
 
@@ -68,19 +68,19 @@ namespace AgendaContatoApi.Controllers
                     return BadRequest(mensagem);
                 }
 
-                var contato = await _service.ObterPorId(id);
+                var registro = await _service.ObterPorId(id);
 
-                if (contato is not null)
+                if (registro is not null)
                 {
-                    if (!string.IsNullOrEmpty(contato.ErroMensagem))
+                    if (!string.IsNullOrEmpty(registro.ErroMensagem))
                     {
-                        mensagem += contato.ErroMensagem;
+                        mensagem += registro.ErroMensagem;
                         _logger.LogError(mensagem);
                         return BadRequest(mensagem);
                     }
                     mensagem += "Sucesso!";
                     _logger.LogInformation(mensagem);
-                    return Ok(contato);
+                    return Ok(registro);
                 }
                 mensagem += "Dados não localizados!";
 
@@ -96,7 +96,7 @@ namespace AgendaContatoApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<ContatoModel>>> InserirContatos(List<InserirContatoDTO> liContato)
+        public async Task<ActionResult<List<AgendaModel>>> InserirContatos(List<InserirAgendaDTO> registros)
         {
             try
             {
@@ -106,19 +106,19 @@ namespace AgendaContatoApi.Controllers
                     _logger.LogError(mensagem);
                     return BadRequest(mensagem);
                 }
-                var listaModelInserida = await _service.Inserir(liContato);
+                var liRegistro = await _service.Inserir(registros);
 
-                if (listaModelInserida is not null)
+                if (liRegistro is not null)
                 {
-                    if (!string.IsNullOrEmpty(listaModelInserida[0].ErroMensagem))
+                    if (!string.IsNullOrEmpty(liRegistro[0].ErroMensagem))
                     {
-                        mensagem += listaModelInserida[0].ErroMensagem;
+                        mensagem += liRegistro[0].ErroMensagem;
                         _logger.LogError(mensagem);
                         return BadRequest(mensagem);
                     }
                     mensagem += "Sucesso!";
                     _logger.LogInformation(mensagem);
-                    return Ok(listaModelInserida);
+                    return Ok(liRegistro);
                 }
                 mensagem += "Dados não localizados.";
 
@@ -135,7 +135,7 @@ namespace AgendaContatoApi.Controllers
         }
 
         [HttpPut("Agenda")]
-        public async Task<IActionResult> AlterarContato(AlterarContatoDTO contato)
+        public async Task<IActionResult> AlterarContato(AlterarAgendaDTO registro)
         {
             try
             {
@@ -145,18 +145,18 @@ namespace AgendaContatoApi.Controllers
                     _logger.LogError(mensagem);
                     return BadRequest(mensagem);
                 }
-                var modelAlterada = await _service.Alterar(contato);
-                if (modelAlterada is not null)
+                var modelRegistro = await _service.Alterar(registro);
+                if (modelRegistro is not null)
                 {
-                    if (!string.IsNullOrEmpty(modelAlterada.ErroMensagem))
+                    if (!string.IsNullOrEmpty(modelRegistro.ErroMensagem))
                     {
-                        mensagem += modelAlterada.ErroMensagem;
+                        mensagem += modelRegistro.ErroMensagem;
                         _logger.LogError(mensagem);
                         return BadRequest(mensagem);
                     }
                     mensagem += "Sucesso!";
                     _logger.LogInformation(mensagem);
-                    return Ok(modelAlterada);
+                    return Ok(modelRegistro);
                 }
                 mensagem += "Dados não localizados.";
 
@@ -169,6 +169,13 @@ namespace AgendaContatoApi.Controllers
                 _logger.LogError(mensagem);
                 return BadRequest(mensagem);
             }
+            /* if (id != contato.Id)
+             {
+                 return BadRequest();
+             }
+
+             await _repo.AlterarContatoAsync(contato);
+             return NoContent();*/
         }
 
         [HttpDelete("{id}")]

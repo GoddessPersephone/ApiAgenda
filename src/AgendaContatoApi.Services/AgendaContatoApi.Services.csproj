@@ -15,4 +15,8 @@
     <ProjectReference Include="..\AgendaContatoApi.Model\AgendaContatoApi.Model.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Contato\" />
+  </ItemGroup>
+
 </Project>

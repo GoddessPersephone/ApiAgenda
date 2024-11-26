@@ -1,8 +1,9 @@
 using AgendaContatoApi.Data;
 using AgendaContatoApi.Ferramentas;
-using AgendaContatoApi.Interface;
-using AgendaContatoApi.Repository;
-using AgendaContatoApi.Services;
+using AgendaContatoApi.Interface.Repositories;
+using AgendaContatoApi.Interface.Services;
+using AgendaContatoApi.Repository.Agenda;
+using AgendaContatoApi.Services.Agenda;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -25,8 +26,8 @@ builder.Services.AddSwaggerGen(c =>
     c.SchemaFilter<PadraoSwagger>();
 });
 
-builder.Services.AddScoped<IAgendaContatoRepository, AgendaContatoRepository>();
-builder.Services.AddScoped<IAgendaContatoService, AgendaContatoService>();
+builder.Services.AddScoped<IAgendaRepository, AgendaContatoRepository>();
+builder.Services.AddScoped<IAgendaService, AgendaService>();
 
 var app = builder.Build();
 

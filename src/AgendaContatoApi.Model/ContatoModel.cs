@@ -8,7 +8,7 @@ namespace AgendaContatoApi.Model
     public class ContatoModel : BaseModel
     {
         [Key]
-        public int Id { get; private set; }
+        public int IdContato { get; private set; }
         public string? Contato { get; private set; }
         public string? Observacao { get; private set; }
         public eTipoContato idTipoContato { get; private set; }
@@ -16,7 +16,7 @@ namespace AgendaContatoApi.Model
 
         public ContatoModel()
         {
-            Id = 0;
+            IdContato = 0;
             Contato = string.Empty;
             Observacao = string.Empty;
             idTipoContato = eTipoContato.NENHUM;
@@ -28,7 +28,7 @@ namespace AgendaContatoApi.Model
                            ,eTipoContato tipoContato
                            ,bool? wpp )
         {
-            Id = id;
+            IdContato = id;
             Contato = contato;
             Observacao = obs;
             idTipoContato = tipoContato;
@@ -43,6 +43,8 @@ namespace AgendaContatoApi.Model
             Observacao = obs;
             idTipoContato = tipoContato;
             FlagWhatsapp = wpp;
+            AtivaRegistro();
+            DataAtual();
         }
     }
 }
