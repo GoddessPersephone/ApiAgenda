@@ -1,4 +1,4 @@
-﻿using AgendaContatoApi.DTO;
+﻿using AgendaContatoApi.DTO.Agenda;
 using AgendaContatoApi.Interface;
 using AgendaContatoApi.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +20,7 @@ namespace AgendaContatoApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ContatoModel>>> ObterContatos()
+        public async Task<ActionResult<IEnumerable<AgendaModel>>> ObterContatos()
         {
             try
             {
@@ -57,7 +57,7 @@ namespace AgendaContatoApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ContatoModel>> ObterContatoPorId(int id)
+        public async Task<ActionResult<AgendaModel>> ObterContatoPorId(int id)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace AgendaContatoApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<ContatoModel>>> InserirContatos(List<InserirAgendaContatoDTO> liContato)
+        public async Task<ActionResult<List<AgendaModel>>> InserirContatos(List<InserirAgendaContatoDTO> liContato)
         {
             try
             {

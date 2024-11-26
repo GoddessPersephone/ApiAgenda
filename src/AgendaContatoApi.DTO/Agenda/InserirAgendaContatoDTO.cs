@@ -1,4 +1,4 @@
-﻿namespace AgendaContatoApi.DTO
+﻿namespace AgendaContatoApi.DTO.Agenda
 {
     public class InserirAgendaContatoDTO
     {

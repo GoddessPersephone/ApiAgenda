@@ -20,9 +20,9 @@ namespace AgendaContatoApi.Repository
             _context = context;
         }
 
-        public async Task<List<ContatoModel>> ObterContatosAsync()
+        public async Task<List<AgendaModel>> ObterContatosAsync()
         {
-            var listaErro = new List<ContatoModel>();
+            var listaErro = new List<AgendaModel>();
             try
             {
                 return await _context.TabelaContatos.AsNoTracking().Where(x => x.Ativo).ToListAsync();
@@ -38,15 +38,15 @@ namespace AgendaContatoApi.Repository
 #endif
                 mensagem = $"Erro: {ex}, {ex.Message}!";
                 _logger.LogError(mensagem);
-                listaErro.Add(new ContatoModel { ErroMensagem = mensagem });
+                listaErro.Add(new AgendaModel { ErroMensagem = mensagem });
                 return listaErro;
             }
         }
 
-        public async Task<ContatoModel> ObterContatoPorIdAsync(int id)
+        public async Task<AgendaModel> ObterContatoPorIdAsync(int id)
         {
             var mensagem = string.Empty;
-            var modelErro = new ContatoModel();
+            var modelErro = new AgendaModel();
             try
             {
                 return await _context.TabelaContatos
@@ -69,9 +69,9 @@ namespace AgendaContatoApi.Repository
             }
         }
 
-        public async Task<List<ContatoModel>> InserirContatoAsync(List<ContatoModel> liContato)
+        public async Task<List<AgendaModel>> InserirContatoAsync(List<AgendaModel> liContato)
         {
-            var listaErro = new List<ContatoModel>();
+            var listaErro = new List<AgendaModel>();
             using var transacao = _context.Database.BeginTransaction();
             try
             {
@@ -95,17 +95,18 @@ namespace AgendaContatoApi.Repository
 #endif
                 mensagem = $" - {ex}, {ex.Message}!";
                 _logger.LogError($"Erro: {mensagem}");
-                listaErro.Add(new ContatoModel { ErroMensagem = mensagem });
+                listaErro.Add(new AgendaModel { ErroMensagem = mensagem });
                 return listaErro;
             }
         }
 
-        public async Task<ContatoModel> AlterarContatoAsync(ContatoModel contato)
+        public async Task<AgendaModel> AlterarContatoAsync(AgendaModel contato)
         {
-            var modelErro = new ContatoModel();
+            var modelErro = new AgendaModel();
             using var transacao = _context.Database.BeginTransaction();
             try
             {
+                //
 
                 _context.TabelaContatos.Update(contato);
                 await _context.SaveChangesAsync();
@@ -131,9 +132,9 @@ namespace AgendaContatoApi.Repository
             }
         }
 
-        public async Task<ContatoModel> DeletarContatoAsync(int id)
+        public async Task<AgendaModel> DeletarContatoAsync(int id)
         {
-            var modelErro = new ContatoModel();
+            var modelErro = new AgendaModel();
             using var transacao = _context.Database.BeginTransaction();
             try
             {
@@ -142,7 +143,7 @@ namespace AgendaContatoApi.Repository
                 if (contato is null)
                 {
                     sucesso = false;
-                    mensagem = "Contato nao localizado!";
+                    mensagem = "Contato não localizado no cadastro!";
                 }
                 else
                 {

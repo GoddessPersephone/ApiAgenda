@@ -19,7 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgendaContatoApi.Repository
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgendaContatoApi.Interface", "..\src\AgendaContatoApi.Interface\AgendaContatoApi.Interface.csproj", "{8573DF13-D2DC-4276-AA48-17892AB36AFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaContatoApi.DTO", "..\src\AgendaContatoApi.DTO\AgendaContatoApi.DTO.csproj", "{EB821092-6A84-4790-A5AE-F2DAE58D92C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgendaContatoApi.DTO", "..\src\AgendaContatoApi.DTO\AgendaContatoApi.DTO.csproj", "{EB821092-6A84-4790-A5AE-F2DAE58D92C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaContatoApi.Global", "..\src\AgendaContatoApi.Global\AgendaContatoApi.Global.csproj", "{9CC04A75-EC7A-40E3-8647-112A317B6303}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaContatoApi.Enumeradores", "..\src\AgendaContatoApi.Enumeradores\AgendaContatoApi.Enumeradores.csproj", "{C513C332-BC72-47F7-8E4B-672937C5556E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +63,14 @@ Global
 		{EB821092-6A84-4790-A5AE-F2DAE58D92C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB821092-6A84-4790-A5AE-F2DAE58D92C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB821092-6A84-4790-A5AE-F2DAE58D92C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CC04A75-EC7A-40E3-8647-112A317B6303}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CC04A75-EC7A-40E3-8647-112A317B6303}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CC04A75-EC7A-40E3-8647-112A317B6303}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CC04A75-EC7A-40E3-8647-112A317B6303}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C513C332-BC72-47F7-8E4B-672937C5556E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C513C332-BC72-47F7-8E4B-672937C5556E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C513C332-BC72-47F7-8E4B-672937C5556E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C513C332-BC72-47F7-8E4B-672937C5556E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -71,6 +83,8 @@ Global
 		{A4589097-0CAE-4FA5-BE39-2A439388C02A} = {562CDDCF-1D88-4F4E-9921-E67B022174EC}
 		{8573DF13-D2DC-4276-AA48-17892AB36AFB} = {562CDDCF-1D88-4F4E-9921-E67B022174EC}
 		{EB821092-6A84-4790-A5AE-F2DAE58D92C1} = {562CDDCF-1D88-4F4E-9921-E67B022174EC}
+		{9CC04A75-EC7A-40E3-8647-112A317B6303} = {562CDDCF-1D88-4F4E-9921-E67B022174EC}
+		{C513C332-BC72-47F7-8E4B-672937C5556E} = {562CDDCF-1D88-4F4E-9921-E67B022174EC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AADBD673-16F5-450A-A579-713C9A34F0A4}

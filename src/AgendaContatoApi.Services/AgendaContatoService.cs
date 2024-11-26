@@ -1,4 +1,4 @@
-﻿using AgendaContatoApi.DTO;
+﻿using AgendaContatoApi.DTO.Agenda;
 using AgendaContatoApi.Interface;
 using AgendaContatoApi.Model;
 using Microsoft.Extensions.Logging;
@@ -18,10 +18,10 @@ namespace AgendaContatoApi.Services
             _logger = logger;
         }
 
-        public async Task<List<ContatoModel>> Obter()
+        public async Task<List<AgendaModel>> Obter()
         {
-            var listaErro = new List<ContatoModel>();
-            var listaRetorno = new List<ContatoModel>();
+            var listaErro = new List<AgendaModel>();
+            var listaRetorno = new List<AgendaModel>();
             try
             {
                 listaRetorno = await _repo.ObterContatosAsync();
@@ -34,21 +34,21 @@ namespace AgendaContatoApi.Services
                         _logger.LogError("Erro: " + mensagem);
                     }
                 }
-                listaErro.Add(new ContatoModel { ErroMensagem = mensagem });
+                listaErro.Add(new AgendaModel { ErroMensagem = mensagem });
                 return sucesso ? listaRetorno : listaErro;
             }
             catch (Exception ex)
             {
                 mensagem += $"Erro: {ex}, {ex.Message}!";
                 _logger.LogError(mensagem);
-                listaErro.Add(new ContatoModel { ErroMensagem = mensagem });
+                listaErro.Add(new AgendaModel { ErroMensagem = mensagem });
                 return listaErro;
             }
         }
-        public async Task<ContatoModel> ObterPorId(int id)
+        public async Task<AgendaModel> ObterPorId(int id)
         {
-            var modelErro = new ContatoModel();
-            var modelRetorno = new ContatoModel();
+            var modelErro = new AgendaModel();
+            var modelRetorno = new AgendaModel();
             try
             {
                 if (id <= 0)
@@ -80,10 +80,10 @@ namespace AgendaContatoApi.Services
                 return modelErro;
             }
         }
-        public async Task<List<ContatoModel>> Inserir(List<InserirAgendaContatoDTO> liContatoDTO)
+        public async Task<List<AgendaModel>> Inserir(List<InserirAgendaContatoDTO> liContatoDTO)
         {
-            var listaErro = new List<ContatoModel>();
-            var listaRetorno = new List<ContatoModel>();
+            var listaErro = new List<AgendaModel>();
+            var listaRetorno = new List<AgendaModel>();
             try
             {
                 #region Validações 
@@ -96,7 +96,7 @@ namespace AgendaContatoApi.Services
                 #endregion
                 if (sucesso)
                 {
-                    var listaContatos = liContatoDTO.Select(item => new ContatoModel(nome: item.Nome, endereco: item.Endereco, contatos: item.Contato)).ToList();
+                    var listaContatos = liContatoDTO.Select(item => new AgendaModel(nome: item.Nome, endereco: item.Endereco, contatos: item.Contato)).ToList();
 
                     listaRetorno = await _repo.InserirContatoAsync(listaContatos);
                     if (listaRetorno is not null && listaRetorno.Count > 0)
@@ -109,21 +109,21 @@ namespace AgendaContatoApi.Services
                         }
                     }
                 }
-                listaErro.Add(new ContatoModel { ErroMensagem = mensagem });
+                listaErro.Add(new AgendaModel { ErroMensagem = mensagem });
                 return sucesso ? listaRetorno : listaErro;
             }
             catch (Exception ex)
             {
                 mensagem += $"Erro: {ex}, {ex.Message}!";
                 _logger.LogError(mensagem);
-                listaErro.Add(new ContatoModel { ErroMensagem = mensagem });
+                listaErro.Add(new AgendaModel { ErroMensagem = mensagem });
                 return listaErro;
             }
         }
-        public async Task<ContatoModel> Alterar(AlterarAgendaContatoDTO contato)
+        public async Task<AgendaModel> Alterar(AlterarAgendaContatoDTO contato)
         {
-            var modelErro = new ContatoModel();
-            var modelRetorno = new ContatoModel();
+            var modelErro = new AgendaModel();
+            var modelRetorno = new AgendaModel();
             try
             {
                 #region Validações                
@@ -136,7 +136,7 @@ namespace AgendaContatoApi.Services
                 #endregion
                 if (sucesso)
                 {
-                    var model = new ContatoModel(nome: contato.Nome, endereco: contato.Endereco, contatos: contato.Contato);
+                    var model = new AgendaModel(id: contato.Id, nome: contato.Nome, enderecoID: contato.Endereco, contatoID: contato.Contato);
 
                     modelRetorno = await _repo.AlterarContatoAsync(model);
                     if (modelRetorno is not null && !string.IsNullOrEmpty(modelRetorno.ErroMensagem))
@@ -159,10 +159,10 @@ namespace AgendaContatoApi.Services
             }
         }
 
-        public async Task<ContatoModel> Deletar(int id)
+        public async Task<AgendaModel> Deletar(int id)
         {
-            var modelErro = new ContatoModel();
-            var modelRetorno = new ContatoModel();
+            var modelErro = new AgendaModel();
+            var modelRetorno = new AgendaModel();
             try
             {
                 if (id <= 0)
