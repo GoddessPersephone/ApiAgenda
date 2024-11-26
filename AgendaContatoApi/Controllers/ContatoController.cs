@@ -95,46 +95,7 @@ namespace AgendaContatoApi.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<ActionResult<List<ContatoModel>>> InserirContatos(List<InserirContatoDTO> liContato)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    mensagem += "Erro: Modelo de informação incorreto!";
-                    _logger.LogError(mensagem);
-                    return BadRequest(mensagem);
-                }
-                var listaModelInserida = await _service.Inserir(liContato);
-
-                if (listaModelInserida is not null)
-                {
-                    if (!string.IsNullOrEmpty(listaModelInserida[0].ErroMensagem))
-                    {
-                        mensagem += listaModelInserida[0].ErroMensagem;
-                        _logger.LogError(mensagem);
-                        return BadRequest(mensagem);
-                    }
-                    mensagem += "Sucesso!";
-                    _logger.LogInformation(mensagem);
-                    return Ok(listaModelInserida);
-                }
-                mensagem += "Dados não localizados.";
-
-                _logger.LogError(mensagem);
-                return NotFound(mensagem);
-            }
-            catch (Exception ex)
-            {
-                mensagem += $"{ex}, {ex.Message}!";
-                _logger.LogError(mensagem);
-                return BadRequest(mensagem);
-            }
-            //return CreatedAtAction(nameof(GetContato), new { id = liContato.Id }, liContato);
-        }
-
-        [HttpPut("Agenda")]
+        [HttpPut("Contato")]
         public async Task<IActionResult> AlterarContato(AlterarContatoDTO contato)
         {
             try

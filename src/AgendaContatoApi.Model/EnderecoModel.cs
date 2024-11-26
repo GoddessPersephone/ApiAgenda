@@ -9,7 +9,7 @@ namespace AgendaContatoApi.Model
     {
         [Key]
         public int IdEndereco { get; private set; }
-        public int IdProprietario { get; private set; }
+        public int IdProprietarioEndereco { get; private set; }
         public string? Endereco { get; private set; }
         public string? Numero { get; private set; }
         public string? Observacao { get; private set; }
@@ -19,7 +19,7 @@ namespace AgendaContatoApi.Model
         public EnderecoModel()
         {
             IdEndereco = 0;
-            IdProprietario = 0;
+            IdProprietarioEndereco = 0;
             Endereco = string.Empty;
             Numero = string.Empty;
             Observacao = string.Empty;
@@ -33,7 +33,7 @@ namespace AgendaContatoApi.Model
                             , eTipoEndereco tipoEndereco)
         {
             IdEndereco = enderecoID;
-            IdProprietario = proprietarioID;
+            IdProprietarioEndereco = proprietarioID;
             Endereco = endereco;
             Numero = num;
             Observacao = obs;
@@ -45,7 +45,7 @@ namespace AgendaContatoApi.Model
                             , string? obs
                             , eTipoEndereco tipoEndereco)
         {
-            IdProprietario = proprietarioID;
+            IdProprietarioEndereco = proprietarioID;
             Endereco = endereco;
             Numero = num;
             Observacao = obs;
