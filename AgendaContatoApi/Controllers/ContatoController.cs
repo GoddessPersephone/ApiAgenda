@@ -1,4 +1,5 @@
-﻿using AgendaContatoApi.Interface;
+﻿using AgendaContatoApi.DTO;
+using AgendaContatoApi.Interface;
 using AgendaContatoApi.Model;
 using AgendaContatoApi.Services;
 using Microsoft.AspNetCore.Http;
@@ -97,7 +98,7 @@ namespace AgendaContatoApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<ContatoModel>>> InserirContatos(List<ContatoModel> liContato)
+        public async Task<ActionResult<List<ContatoModel>>> InserirContatos(List<InserirAgendaContatoDTO> liContato)
         {
             try
             {
@@ -135,8 +136,8 @@ namespace AgendaContatoApi.Controllers
             //return CreatedAtAction(nameof(GetContato), new { id = liContato.Id }, liContato);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> AlterarContato(ContatoModel contato)
+        [HttpPut("Alterar")]
+        public async Task<IActionResult> AlterarContato(AlterarAgendaContatoDTO contato)
         {
             try
             {

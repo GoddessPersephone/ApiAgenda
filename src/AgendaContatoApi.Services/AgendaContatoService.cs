@@ -1,4 +1,5 @@
-﻿using AgendaContatoApi.Interface;
+﻿using AgendaContatoApi.DTO;
+using AgendaContatoApi.Interface;
 using AgendaContatoApi.Model;
 using Microsoft.Extensions.Logging;
 
@@ -79,14 +80,14 @@ namespace AgendaContatoApi.Services
                 return modelErro;
             }
         }
-        public async Task<List<ContatoModel>> Inserir(List<ContatoModel> liContato)
+        public async Task<List<ContatoModel>> Inserir(List<InserirAgendaContatoDTO> liContatoDTO)
         {
             var listaErro = new List<ContatoModel>();
             var listaRetorno = new List<ContatoModel>();
             try
             {
                 #region Validações 
-                if (liContato.Count() <= 0 && !liContato.Any())
+                if (liContatoDTO.Count() <= 0 && !liContatoDTO.Any())
                 {
                     sucesso = false;
                     mensagem += " - Os campos são de preenchimento obrigatório!";
@@ -95,7 +96,9 @@ namespace AgendaContatoApi.Services
                 #endregion
                 if (sucesso)
                 {
-                    listaRetorno = await _repo.InserirContatoAsync(liContato);
+                    var listaContatos = liContatoDTO.Select(item => new ContatoModel(nome: item.Nome, endereco: item.Endereco, contatos: item.Contato)).ToList();
+
+                    listaRetorno = await _repo.InserirContatoAsync(listaContatos);
                     if (listaRetorno is not null && listaRetorno.Count > 0)
                     {
                         if (!string.IsNullOrEmpty(listaRetorno[0].ErroMensagem))
@@ -117,7 +120,7 @@ namespace AgendaContatoApi.Services
                 return listaErro;
             }
         }
-        public async Task<ContatoModel> Alterar(ContatoModel contato)
+        public async Task<ContatoModel> Alterar(AlterarAgendaContatoDTO contato)
         {
             var modelErro = new ContatoModel();
             var modelRetorno = new ContatoModel();
@@ -133,14 +136,17 @@ namespace AgendaContatoApi.Services
                 #endregion
                 if (sucesso)
                 {
-                    modelRetorno = await _repo.AlterarContatoAsync(contato);
+                    var model = new ContatoModel(nome: contato.Nome, endereco: contato.Endereco, contatos: contato.Contato);
+
+                    modelRetorno = await _repo.AlterarContatoAsync(model);
                     if (modelRetorno is not null && !string.IsNullOrEmpty(modelRetorno.ErroMensagem))
                     {
                         sucesso = false;
-                        mensagem += $" - {contato.ErroMensagem} !";
+                        mensagem += $" - {modelRetorno.ErroMensagem} !";
                         _logger.LogError(mensagem);
                     }
                 }
+            
                 modelErro.ErroMensagem = mensagem;
                 return sucesso ? modelRetorno : modelErro;
             }

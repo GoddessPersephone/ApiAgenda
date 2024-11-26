@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AgendaContatoApi.DTO\AgendaContatoApi.DTO.csproj" />
     <ProjectReference Include="..\AgendaContatoApi.Model\AgendaContatoApi.Model.csproj" />
   </ItemGroup>
 

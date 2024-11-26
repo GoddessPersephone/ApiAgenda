@@ -1,4 +1,5 @@
-﻿using AgendaContatoApi.Model;
+﻿using AgendaContatoApi.DTO;
+using AgendaContatoApi.Model;
 
 namespace AgendaContatoApi.Interface
 {
@@ -6,8 +7,8 @@ namespace AgendaContatoApi.Interface
     {
         Task<List<ContatoModel>> Obter();
         Task<ContatoModel> ObterPorId(int id);
-        Task<List<ContatoModel>> Inserir(List<ContatoModel> liContato);
-        Task<ContatoModel> Alterar(ContatoModel contato);
+        Task<List<ContatoModel>> Inserir(List<InserirAgendaContatoDTO> liContato);
+        Task<ContatoModel> Alterar(AlterarAgendaContatoDTO contato);
         Task<ContatoModel> Deletar(int id);
     }
 }

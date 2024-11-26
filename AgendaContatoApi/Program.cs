@@ -1,8 +1,10 @@
 using AgendaContatoApi.Data;
+using AgendaContatoApi.Ferramentas;
 using AgendaContatoApi.Interface;
 using AgendaContatoApi.Repository;
 using AgendaContatoApi.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 SQLitePCL.Batteries.Init(); // Inicializa o provedor SQLite
 
@@ -16,7 +18,12 @@ builder.Services.AddDbContext<AgendaContext>(options =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Agenda de Contatos", Version = "v1" });
+    c.SchemaFilter<PadraoSwagger>();
+});
 
 builder.Services.AddScoped<IAgendaContatoRepository, AgendaContatoRepository>();
 builder.Services.AddScoped<IAgendaContatoService, AgendaContatoService>();
