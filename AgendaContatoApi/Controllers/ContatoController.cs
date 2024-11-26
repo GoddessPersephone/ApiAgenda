@@ -1,8 +1,6 @@
 ﻿using AgendaContatoApi.DTO;
 using AgendaContatoApi.Interface;
 using AgendaContatoApi.Model;
-using AgendaContatoApi.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AgendaContatoApi.Controllers
@@ -196,18 +194,18 @@ namespace AgendaContatoApi.Controllers
 
                 var dadoExcluido = await _service.Deletar(id);
 
-                /* if (dadoExcluido is not null)
-                 {
-                     if (!string.IsNullOrEmpty(dadoExcluido.ErroMensagem))
-                     {
-                         mensagem += dadoExcluido.ErroMensagem;
-                         _logger.LogError(mensagem);
-                         return BadRequest(mensagem);
-                     }
-                     mensagem += "Sucesso!";
-                     _logger.LogInformation(mensagem);
-                     return Ok(mensagem);
-                 }*/
+                if (dadoExcluido is not null)
+                {
+                    if (!string.IsNullOrEmpty(dadoExcluido.ErroMensagem))
+                    {
+                        mensagem += dadoExcluido.ErroMensagem;
+                        _logger.LogError(mensagem);
+                        return BadRequest(mensagem);
+                    }
+                    mensagem += "Sucesso!";
+                    _logger.LogInformation(mensagem);
+                    return Ok(mensagem);
+                }
 
                 mensagem += "Dados não localizados.";
 

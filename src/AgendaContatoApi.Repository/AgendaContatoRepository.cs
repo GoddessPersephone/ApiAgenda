@@ -25,7 +25,7 @@ namespace AgendaContatoApi.Repository
             var listaErro = new List<ContatoModel>();
             try
             {
-                return await _context.TabelaContatos.ToListAsync();
+                return await _context.TabelaContatos.AsNoTracking().Where(x => x.Ativo).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -49,7 +49,9 @@ namespace AgendaContatoApi.Repository
             var modelErro = new ContatoModel();
             try
             {
-                return await _context.TabelaContatos.FindAsync(id);
+                return await _context.TabelaContatos
+                                     .Where(x => x.Ativo && x.Id == id)
+                                     .FirstOrDefaultAsync();
             }
             catch (Exception ex)
             {
@@ -104,6 +106,7 @@ namespace AgendaContatoApi.Repository
             using var transacao = _context.Database.BeginTransaction();
             try
             {
+
                 _context.TabelaContatos.Update(contato);
                 await _context.SaveChangesAsync();
 
@@ -143,7 +146,8 @@ namespace AgendaContatoApi.Repository
                 }
                 else
                 {
-                    _context.TabelaContatos.Remove(contato);
+                    contato.InativaRegistro();
+                    _context.TabelaContatos.Update(contato);
                     await _context.SaveChangesAsync();
 
                     await transacao.CommitAsync();
