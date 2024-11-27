@@ -20,7 +20,7 @@ namespace AgendaContatoApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AgendaModel>>> ObterContatos()
+        public async Task<ActionResult<IEnumerable<RetornoCompletoModel>>> ObterRegistros()
         {
             try
             {
@@ -57,7 +57,7 @@ namespace AgendaContatoApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<AgendaModel>> ObterContatoPorId(int id)
+        public async Task<ActionResult<RetornoCompletoModel>> ObterRegistroPorId(int id)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace AgendaContatoApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<AgendaModel>>> InserirContatos(List<InserirAgendaDTO> registros)
+        public async Task<ActionResult<List<RetornoCompletoModel>>> InserirRegistros(List<InserirAgendaDTO> registros)
         {
             try
             {
@@ -134,8 +134,8 @@ namespace AgendaContatoApi.Controllers
             //return CreatedAtAction(nameof(GetContato), new { id = liContato.Id }, liContato);
         }
 
-        [HttpPut("Agenda")]
-        public async Task<IActionResult> AlterarContato(AlterarAgendaDTO registro)
+        [HttpPut("AlterarAgenda")]
+        public async Task<IActionResult> AlterarRegistro(AlterarAgendaDTO registro)
         {
             try
             {
@@ -179,7 +179,7 @@ namespace AgendaContatoApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteContato(int id)
+        public async Task<IActionResult> DeleteRegistro(int id)
         {
             try
             {
@@ -190,8 +190,6 @@ namespace AgendaContatoApi.Controllers
                     _logger.LogError(mensagem);
                     return BadRequest(mensagem);
                 }
-
-
                 var dadoExcluido = await _service.Deletar(id);
 
                 if (dadoExcluido is not null)

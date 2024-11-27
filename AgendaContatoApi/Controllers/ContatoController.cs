@@ -95,7 +95,7 @@ namespace AgendaContatoApi.Controllers
             }
         }
 
-        [HttpPut("Contato")]
+        [HttpPut("AlterarContato")]
         public async Task<IActionResult> AlterarContato(AlterarContatoDTO contato)
         {
             try
