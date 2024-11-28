@@ -7,45 +7,47 @@ namespace AgendaContatoApi.Model
     public class AgendaModel : BaseModel
     {
         [Key]
-        public int IdRegistroAgenda { get; private set; }
+        public int Id { get; private set; }
         public string Nome { get; private set; }
-        public int[] idContato { get; private set; }
-        public int[] idEndereco { get; private set; }
+        public string Contato { get; private set; }
+        public string Endereco { get; private set; }
 
         public AgendaModel()
         {
-            IdRegistroAgenda = 0;
+            Id = 0;
             Nome = string.Empty;
-            idContato = Array.Empty<int>();
-            idEndereco = Array.Empty<int>();
+            Contato = string.Empty;
+            Endereco = string.Empty;
         }
         public AgendaModel(int id
                           , string nome
-                          , int[] contatoID
-                          , int[] enderecoID)
+                          , string contato
+                          , string endereco)
         {
-            IdRegistroAgenda = id;
+            Id = id;
             Nome = nome.CaixaAlta().RemoveCaracteres();
-            idContato = contatoID;
-            idEndereco = enderecoID;
+            Contato = contato;
+            Endereco = endereco;
         }
-        public AgendaModel(string nome)
+        public AgendaModel(string nome, string contato, string endereco)
         {
             Nome = nome.CaixaAlta().RemoveCaracteres();
+            Contato = contato.CaixaAlta().RemoveCaracteres();
+            Endereco = endereco.CaixaAlta().RemoveCaracteres();
             AtivaRegistro();
             DataAtual();
         }
         public AgendaModel(int id, string nome)
         {
-            IdRegistroAgenda = id;
+            Id = id;
             Nome = nome.CaixaAlta().RemoveCaracteres();
         }
 
-        public void Alterar(string nome, int[] contato, int[] endereco)
+        public void Alterar(string nome, string contato, string endereco)
         {
             Nome = nome.CaixaAlta().RemoveCaracteres();
-            idContato = contato;
-            idEndereco = endereco;
+            Contato = contato.TiraEspacos();
+            Endereco = endereco.CaixaAlta().RemoveCaracteres();
         }
     }
 }

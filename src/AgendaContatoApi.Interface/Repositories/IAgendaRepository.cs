@@ -5,5 +5,6 @@ namespace AgendaContatoApi.Interface.Repositories
 {
     public interface IAgendaRepository : IGeralRepositorio<AgendaModel>
     {
+
     }
 }

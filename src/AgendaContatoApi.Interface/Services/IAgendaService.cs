@@ -4,9 +4,9 @@ using AgendaContatoApi.Model;
 
 namespace AgendaContatoApi.Interface.Services
 {
-    public interface IAgendaService : IGeralService<RetornoCompletoModel>
+    public interface IAgendaService : IGeralService<AgendaModel>
     {
-        Task<RetornoCompletoModel> Inserir(List<InserirAgendaDTO> liContato);
-        Task<RetornoCompletoModel> Alterar(AlterarAgendaDTO contato);
+        Task<List<AgendaModel>> Inserir(List<InserirAgendaDTO> liContato);
+        Task<AgendaModel> Alterar(AlterarAgendaDTO contato);
     }
 }

@@ -19,37 +19,37 @@ namespace AgendaContatoApi.Services.Agenda
             _logger = logger;
         }
 
-        public async Task<RetornoCompletoModel> Obter()
+        public async Task<List<AgendaModel>> Obter()
         {
-            var listaErro = new RetornoCompletoModel();
-            var listaRetorno = new RetornoCompletoModel();
+            var listaErro = new List<AgendaModel>();
+            var listaRetorno = new List<AgendaModel>();
             try
             {
-                listaRetorno.Agenda = await _repo.ObterRegistroAsync();
-                if (listaRetorno is not null && listaRetorno.Agenda.Count > 0)
+                listaRetorno = await _repo.ObterRegistroAsync();
+                if (listaRetorno is not null && listaRetorno.Count > 0)
                 {
-                    if (!string.IsNullOrEmpty(listaRetorno.Agenda[0].ErroMensagem))
+                    if (!string.IsNullOrEmpty(listaRetorno[0].ErroMensagem))
                     {
                         sucesso = false;
-                        mensagem += listaRetorno.Agenda[0].ErroMensagem;
+                        mensagem += listaRetorno[0].ErroMensagem;
                         _logger.LogError("Erro: " + mensagem);
                     }
                 }
-                listaErro.ErroMensagem = mensagem;
+                listaErro.Add(new AgendaModel { ErroMensagem = mensagem });
                 return sucesso ? listaRetorno : listaErro;
             }
             catch (Exception ex)
             {
                 mensagem += $"Erro: {ex}, {ex.Message}!";
                 _logger.LogError(mensagem);
-                listaErro.ErroMensagem = mensagem;
+                listaErro.Add(new AgendaModel { ErroMensagem = mensagem });
                 return listaErro;
             }
         }
-        public async Task<RetornoCompletoModel> ObterPorId(int id)
+        public async Task<AgendaModel> ObterPorId(int id)
         {
-            var modelErro = new RetornoCompletoModel();
-            var modelRetorno = new RetornoCompletoModel();
+            var modelErro = new AgendaModel();
+            var modelRetorno = new AgendaModel();
             try
             {
                 if (id <= 0)
@@ -59,10 +59,10 @@ namespace AgendaContatoApi.Services.Agenda
                 }
                 if (sucesso)
                 {
-                    modelRetorno.Agenda[0] = await _repo.ObterRegistroPorIdAsync(id);
+                    modelRetorno = await _repo.ObterRegistroPorIdAsync(id);
                     if (modelRetorno is not null)
                     {
-                        if (!string.IsNullOrEmpty(modelRetorno.Agenda[0].ErroMensagem))
+                        if (!string.IsNullOrEmpty(modelRetorno.ErroMensagem))
                         {
                             sucesso = false;
                             mensagem += modelRetorno.ErroMensagem;
@@ -81,10 +81,10 @@ namespace AgendaContatoApi.Services.Agenda
                 return modelErro;
             }
         }
-        public async Task<RetornoCompletoModel> Inserir(List<InserirAgendaDTO> liContatoDTO)
+        public async Task<List<AgendaModel>> Inserir(List<InserirAgendaDTO> liContatoDTO)
         {
-            var listaErro = new RetornoCompletoModel();
-            var listaRetorno = new RetornoCompletoModel();
+            var listaErro = new List<AgendaModel>();
+            var listaRetorno = new List<AgendaModel>();
             try
             {
                 #region Validações 
@@ -97,34 +97,34 @@ namespace AgendaContatoApi.Services.Agenda
                 #endregion
                 if (sucesso)
                 {
-                    var listaAgenda = liContatoDTO.Select(item => new AgendaModel(nome: item.Nome)).ToList();
+                    var listaAgenda = liContatoDTO.Select(item => new AgendaModel(nome: item.Nome, contato: item.Contato, endereco: item.Endereco)).ToList();
 
-                    listaRetorno.Agenda = await _repo.InserirRegistroAsync(listaAgenda);
-                    if (listaRetorno is not null && listaRetorno.Agenda.Count > 0)
+                    listaRetorno = await _repo.InserirRegistroAsync(listaAgenda);
+                    if (listaRetorno is not null && listaRetorno.Count > 0)
                     {
-                        if (!string.IsNullOrEmpty(listaRetorno.Agenda[0].ErroMensagem))
+                        if (!string.IsNullOrEmpty(listaRetorno[0].ErroMensagem))
                         {
                             sucesso = false;
-                            mensagem += listaRetorno.Agenda[0].ErroMensagem;
+                            mensagem += listaRetorno[0].ErroMensagem;
                             _logger.LogError("Erro: " + mensagem);
                         }
                     }
                 }
-                listaErro.ErroMensagem = mensagem;
+                listaErro.Add(new AgendaModel { ErroMensagem = mensagem });
                 return sucesso ? listaRetorno : listaErro;
             }
             catch (Exception ex)
             {
                 mensagem += $"Erro: {ex}, {ex.Message}!";
                 _logger.LogError(mensagem);
-                listaErro.ErroMensagem = mensagem;
+                listaErro.Add(new AgendaModel { ErroMensagem = mensagem });
                 return listaErro;
             }
         }
-        public async Task<RetornoCompletoModel> Alterar(AlterarAgendaDTO contato)
+        public async Task<AgendaModel> Alterar(AlterarAgendaDTO contato)
         {
-            var modelErro = new RetornoCompletoModel();
-            var modelRetorno = new RetornoCompletoModel();
+            var modelErro = new AgendaModel();
+            var modelRetorno = new AgendaModel();
             try
             {
                 #region Validações                
@@ -139,11 +139,11 @@ namespace AgendaContatoApi.Services.Agenda
                 {
                     var model = new AgendaModel(id: contato.Id, nome: contato.Nome);
 
-                    modelRetorno.Agenda[0] = await _repo.AlterarRegistroAsync(model);
-                    if (modelRetorno is not null && !string.IsNullOrEmpty(modelRetorno.Agenda[0].ErroMensagem))
+                    modelRetorno = await _repo.AlterarRegistroAsync(model);
+                    if (modelRetorno is not null && !string.IsNullOrEmpty(modelRetorno.ErroMensagem))
                     {
                         sucesso = false;
-                        mensagem += $" - {modelRetorno.Agenda[0].ErroMensagem} !";
+                        mensagem += $" - {modelRetorno.ErroMensagem} !";
                         _logger.LogError(mensagem);
                     }
                 }
@@ -160,10 +160,10 @@ namespace AgendaContatoApi.Services.Agenda
             }
         }
 
-        public async Task<RetornoCompletoModel> Deletar(int id)
+        public async Task<AgendaModel> Deletar(int id)
         {
-            var modelErro = new RetornoCompletoModel();
-            var modelRetorno = new RetornoCompletoModel();
+            var modelErro = new AgendaModel();
+            var modelRetorno = new AgendaModel();
             try
             {
                 if (id <= 0)
@@ -173,7 +173,7 @@ namespace AgendaContatoApi.Services.Agenda
                 }
                 if (sucesso)
                 {
-                    modelRetorno.Agenda[0] = await _repo.DeletarRegistroAsync(id);
+                    modelRetorno = await _repo.DeletarRegistroAsync(id);
                     if (modelRetorno is not null && !string.IsNullOrEmpty(modelRetorno.ErroMensagem))
                     {
                         sucesso = false;
