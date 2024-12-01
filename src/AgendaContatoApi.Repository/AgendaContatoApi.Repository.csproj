@@ -7,13 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AgendaContatoApi.Data\AgendaContatoApi.Data.csproj" />
-    <ProjectReference Include="..\AgendaContatoApi.Interface\AgendaContatoApi.Interface.csproj" />
-    <ProjectReference Include="..\AgendaContatoApi.Model\AgendaContatoApi.Model.csproj" />
+    <Compile Remove="Endereco\**" />
+    <EmbeddedResource Remove="Endereco\**" />
+    <None Remove="Endereco\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Endereco\" />
+    <ProjectReference Include="..\AgendaContatoApi.Data\AgendaContatoApi.Data.csproj" />
+    <ProjectReference Include="..\AgendaContatoApi.Interface\AgendaContatoApi.Interface.csproj" />
+    <ProjectReference Include="..\AgendaContatoApi.Model\AgendaContatoApi.Model.csproj" />
   </ItemGroup>
 
 </Project>

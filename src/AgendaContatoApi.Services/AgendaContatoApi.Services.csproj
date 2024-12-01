@@ -7,16 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Endereco\**" />
+    <EmbeddedResource Remove="Endereco\**" />
+    <None Remove="Endereco\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AgendaContatoApi.Interface\AgendaContatoApi.Interface.csproj" />
     <ProjectReference Include="..\AgendaContatoApi.Model\AgendaContatoApi.Model.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Endereco\" />
   </ItemGroup>
 
 </Project>
