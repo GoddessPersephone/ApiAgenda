@@ -137,7 +137,7 @@ namespace AgendaContatoApi.Services.Agenda
                 #endregion
                 if (sucesso)
                 {
-                    var model = new AgendaModel(id: contato.Id, nome: contato.Nome);
+                    var model = new AgendaModel(id: contato.Id, nome: contato.Nome, contato: contato.Contato, endereco: contato.Endereco);
 
                     modelRetorno = await _repo.AlterarRegistroAsync(model);
                     if (modelRetorno is not null && !string.IsNullOrEmpty(modelRetorno.ErroMensagem))
