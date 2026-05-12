@@ -20,7 +20,7 @@ namespace AgendaContatoApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RetornoCompletoModel>>> ObterRegistros()
+        public async Task<ActionResult<IEnumerable<AgendaModel>>> ObterRegistros()
         {
             try
             {
@@ -57,7 +57,7 @@ namespace AgendaContatoApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<RetornoCompletoModel>> ObterRegistroPorId(int id)
+        public async Task<ActionResult<AgendaModel>> ObterRegistroPorId(int id)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace AgendaContatoApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<RetornoCompletoModel>>> InserirRegistros(List<InserirAgendaDTO> registros)
+        public async Task<ActionResult<List<AgendaModel>>> InserirRegistros(List<InserirAgendaDTO> registros)
         {
             try
             {
@@ -131,7 +131,6 @@ namespace AgendaContatoApi.Controllers
                 _logger.LogError(mensagem);
                 return BadRequest(mensagem);
             }
-            //return CreatedAtAction(nameof(GetContato), new { id = liContato.Id }, liContato);
         }
 
         [HttpPut("AlterarAgenda")]
@@ -169,13 +168,6 @@ namespace AgendaContatoApi.Controllers
                 _logger.LogError(mensagem);
                 return BadRequest(mensagem);
             }
-            /* if (id != contato.Id)
-             {
-                 return BadRequest();
-             }
-
-             await _repo.AlterarContatoAsync(contato);
-             return NoContent();*/
         }
 
         [HttpDelete("{id}")]

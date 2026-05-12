@@ -50,7 +50,7 @@ namespace AgendaContatoApi.Repository.Agenda
             try
             {
                 return await _context.TabelaAgenda
-                                     .Where(x => x.Ativo && x.IdRegistroAgenda == id)
+                                     .Where(x => x.Ativo && x.Id == id)
                                      .FirstOrDefaultAsync();
             }
             catch (Exception ex)
